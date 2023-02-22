@@ -14,4 +14,7 @@ export default {
     level: process.env.LOG_LEVEL || "Silly",
   },
   databaseURL: process.env.MONGODB_URI,
+  api: {
+    prefix: "/api",
+  },
 };
