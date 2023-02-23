@@ -17,4 +17,6 @@ export default {
   api: {
     prefix: "/api",
   },
+  jwtSecret: process.env.JWT_SECRET,
+  jwtAlogrithm: process.env.JWT_ALGO,
 };
