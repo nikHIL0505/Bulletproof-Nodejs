@@ -12,7 +12,7 @@ const User = new mongoose.Schema({
     unique: true,
     require: [true, "Email is the required property"],
   },
-  passoword: {
+  password: {
     type: String,
     require: [true, "Password is the required property"],
   },

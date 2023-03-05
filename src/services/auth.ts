@@ -29,6 +29,30 @@ export default class AuthService {
     }
   }
 
+  public async Signin(
+    email: string,
+    password: string
+  ): Promise<{ user: IUser; token: string }> {
+    try {
+      let userObject = await this.userModel.findOne({ email });
+      if (!userObject) {
+        throw Error("User is not registered");
+      }
+      let validPassword = await argon2.verify(userObject.password, password);
+      if (validPassword) {
+        let token = await this.generateJWT(userObject);
+        const user = userObject.toObject();
+        Reflect.deleteProperty(user, "password");
+        Reflect.deleteProperty(user, "salt");
+        return { user, token };
+      } else {
+        throw Error("Password is incorrect");
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
   private generateJWT(userInput: IUser): string {
     let today = new Date();
     let exp = new Date(today);

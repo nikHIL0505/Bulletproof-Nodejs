@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import middlewares from "../middlewares";
 const route = Router();
 
 export default (app: Router) => {
@@ -6,12 +7,12 @@ export default (app: Router) => {
 
   route.get(
     "/me",
-    (req, res, next) => {
-      console.log("Hi");
-      return next();
-    },
+    middlewares.isAuth,
+    middlewares.attachCurrentUser,
     (req: Request, res: Response) => {
-      return res.json({ status: "SUCCESS" }).status(200);
+      return res
+        .json({ status: "SUCCESS", data: { user: req.currentUser } })
+        .status(200);
     }
   );
 };

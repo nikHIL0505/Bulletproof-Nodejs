@@ -13,7 +13,8 @@ function getTokenFromHeader(req) {
   return null;
 }
 
-export default (req) => {
-  let isAuth = jwt.verify(getTokenFromHeader(req), config.jwtSecret);
-  return isAuth;
+export default (req, res, next) => {
+  const isAuth = jwt.verify(getTokenFromHeader(req), config.jwtSecret);
+  req.token = isAuth;
+  return next();
 };
